@@ -1,0 +1,67 @@
+server:
+ port: 8080
+ 
+spring:
+ main:
+  allowBeanDefinitionOverriding: true
+ datasource:
+  url: jdbc:mysql://localhost:3306/auth_db
+  username: root
+  password: root
+ application:
+  name: gateway
+ cloud:
+  gateway:
+   routes:
+    - id: flg
+      predicates:
+      - Path=/flights/**
+      uri: lb://flights-ms
+    - id: ofr
+      predicates:
+      - Path=/offers/**
+      uri: lb://offers-ms
+    - id: fdb
+      predicates:
+      - Path=/feedback/**
+      uri: lb://feedback-ms
+    - id: ath
+      predicates:
+      - Path=/auth/**
+      uri: lb://auth-login
+    - id: onr
+      predicates:
+      - Path=/owner/**
+      uri: lb://owner-ms
+    - id: adm
+      predicates:
+      - Path=/admin/**
+      uri: lb://admin-ms
+    - id: usr
+      predicates:
+      - Path=/users/**
+      uri: lb://user-ms
+    - id: bkn
+      predicates:
+      - Path=/booking/**
+      uri: lb://booking-ms
+    - id: pmt
+      predicates:
+      - Path=/payments/**
+      uri: lb://payment-ms
+
+ 
+ 
+  
+eureka:
+ client:
+  serviceUrl:
+   defaultZone: http://localhost:8090/eureka
+  
+#management:
+# endpoints:
+#  web:
+#   exposure:
+#    include: "*"
+# security:
+#  enabled: false
